@@ -3,6 +3,7 @@ package com.Blog.nambhamBlogs.service.serviceImpl;
 import com.Blog.nambhamBlogs.DTO.ResponseCodeJson;
 import com.Blog.nambhamBlogs.DTO.UniversalResponseDTO;
 import com.Blog.nambhamBlogs.DTO.UserDTO;
+import com.Blog.nambhamBlogs.constants.Constants;
 import com.Blog.nambhamBlogs.model.User;
 import com.Blog.nambhamBlogs.repository.UserRepository;
 import com.Blog.nambhamBlogs.service.UserService;
@@ -12,6 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class UserServiceImpl implements UserService {
 
@@ -20,8 +23,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UniversalResponseDTO addUser(UserDTO userDTO) {
-        UniversalResponseDTO ur = new UniversalResponseDTO<>();
-        if(userDTO.getEmail().equalsIgnoreCase("")){
+        UniversalResponseDTO ur = new UniversalResponseDTO();
+        if(userDTO.getEmailId().equalsIgnoreCase("")){
             ur.setResponseCodeJson(new ResponseCodeJson("user not provided email", HttpStatus.NO_CONTENT.value()));
             return ur;
         }
@@ -29,13 +32,33 @@ public class UserServiceImpl implements UserService {
 
         BeanUtils.copyProperties(userDTO,user);
         user.setUserId(IdGenerator.getUUId());
+        user.setIsDeleted(Constants.NOT_DELETED);
         user = userRepository.save(user);
         if(user==null){
             ur.setResponseCodeJson(new ResponseCodeJson("user not saved", HttpStatus.CONFLICT.value()));
             return ur;
         }
+
         ur.setObject(user);
         ur.setResponseCodeJson(new ResponseCodeJson("user created", HttpStatus.OK.value()));
+        return ur;
+    }
+
+    @Override
+    public UniversalResponseDTO getUsersWithName(String username) {
+        UniversalResponseDTO ur = new UniversalResponseDTO();
+        List<User> users = userRepository.findByUsernameAndIsDeleted(username,Constants.NOT_DELETED);
+        ur.setList(users);
+        ur.setResponseCodeJson(new ResponseCodeJson("users successfully fetched.",HttpStatus.OK.value()));
+        return ur;
+    }
+
+    @Override
+    public UniversalResponseDTO getUserByEmailId(String emailId) {
+        UniversalResponseDTO ur = new UniversalResponseDTO();
+        User user  = userRepository.findByEmailIdAndIsDeleted(emailId,Constants.NOT_DELETED);
+        ur.setObject(user);
+        ur.setResponseCodeJson(new ResponseCodeJson("user successfully fetched.",HttpStatus.OK.value()));
         return ur;
     }
 }

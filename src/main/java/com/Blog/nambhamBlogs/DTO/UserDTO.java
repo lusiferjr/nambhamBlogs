@@ -7,5 +7,5 @@ public class UserDTO {
     private String username;
     private String password;
     private String DOB;
-    private String email;
+    private String emailId;
 }

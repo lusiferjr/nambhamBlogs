@@ -10,6 +10,5 @@ public class UniversalResponseDTO<T> {
         private ResponseCodeJson responseCodeJson;
         private List list;
         private T object;
-        private Integer reqid;
-        private Map<?,?> map;
+
 }

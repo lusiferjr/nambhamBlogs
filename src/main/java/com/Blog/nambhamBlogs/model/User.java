@@ -27,5 +27,8 @@ public class User {
     private String DOB;
 
     @Column(unique = true)
-    private String email;
+    private String emailId;
+
+    @Column
+    private Boolean isDeleted;
 }
