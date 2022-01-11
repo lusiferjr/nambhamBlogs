@@ -11,7 +11,6 @@ import com.Blog.nambhamBlogs.service.UserService;
 import com.Blog.nambhamBlogs.util.IdGenerator;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
@@ -47,7 +46,7 @@ public class BlogServiceImpl implements BlogService {
     @Override
     public UniversalResponseDTO fetchBlogByTopic(String topic) {
         UniversalResponseDTO ur=new UniversalResponseDTO();
-        List<Blogs> blogsList=blogRepository.findByTopicAndDeleted(topic,NOT_DELETED);
+        List<Blogs> blogsList=blogRepository.findByTopicAndIsDeleted(topic,NOT_DELETED);
         if(blogsList.isEmpty()){
             ur.setResponseCodeJson(new ResponseCodeJson("no list found for that topic",HttpStatus.CONFLICT.value()));
             return ur;
@@ -60,7 +59,7 @@ public class BlogServiceImpl implements BlogService {
     @Override
     public UniversalResponseDTO fetchBlogByUserId(String userId) {
         UniversalResponseDTO ur=new UniversalResponseDTO();
-        List<Blogs> blogsList=blogRepository.findByUserIdAndDeleted(userId,NOT_DELETED);
+        List<Blogs> blogsList=blogRepository.findByUserIdAndIsDeleted(userId,NOT_DELETED);
         if(blogsList.isEmpty()){
             ur.setResponseCodeJson(new ResponseCodeJson("no list found for that topic",HttpStatus.CONFLICT.value()));
             return ur;
@@ -73,7 +72,7 @@ public class BlogServiceImpl implements BlogService {
     @Override
     public UniversalResponseDTO fetchBlogById(String blogId) {
         UniversalResponseDTO ur=new UniversalResponseDTO();
-        Blogs blogs=blogRepository.findByBlogIdAndDeleted(blogId,NOT_DELETED);
+        Blogs blogs=blogRepository.findByBlogIdAndIsDeleted(blogId,NOT_DELETED);
         if(blogs==null){
             ur.setResponseCodeJson(new ResponseCodeJson("no blog found with that id",HttpStatus.CONFLICT.value()));
             return ur;
@@ -87,7 +86,7 @@ public class BlogServiceImpl implements BlogService {
     @Override
     public UniversalResponseDTO updateBlog(UpdateBlogDTO updateBlogDTO) {
         UniversalResponseDTO ur=new UniversalResponseDTO();
-        Blogs blogs=blogRepository.findByBlogIdAndDeleted(updateBlogDTO.getBlogId(),NOT_DELETED);
+        Blogs blogs=blogRepository.findByBlogIdAndIsDeleted(updateBlogDTO.getBlogId(),NOT_DELETED);
         if(blogs==null){
             ur.setResponseCodeJson(new ResponseCodeJson("no blog found with that id",HttpStatus.CONFLICT.value()));
             return ur;
@@ -102,7 +101,7 @@ public class BlogServiceImpl implements BlogService {
     @Override
     public UniversalResponseDTO deleteBlog(String blogId) {
         UniversalResponseDTO ur=new UniversalResponseDTO();
-        Blogs blogs=blogRepository.findByBlogIdAndDeleted(blogId,NOT_DELETED);
+        Blogs blogs=blogRepository.findByBlogIdAndIsDeleted(blogId,NOT_DELETED);
         if(blogs==null){
             ur.setResponseCodeJson(new ResponseCodeJson("no blog found with that id",HttpStatus.CONFLICT.value()));
             return ur;

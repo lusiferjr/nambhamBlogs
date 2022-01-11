@@ -8,9 +8,9 @@ import java.util.List;
 
 @Repository
 public interface BlogRepository extends JpaRepository<Blogs,Long> {
-    List<Blogs> findByTopicAndDeleted(String topic, Boolean notDeleted);
+    List<Blogs> findByTopicAndIsDeleted(String topic, Boolean notDeleted);
 
-    List<Blogs> findByUserIdAndDeleted(String userId, Boolean notDeleted);
+    List<Blogs> findByUserIdAndIsDeleted(String userId, Boolean notDeleted);
 
-    Blogs findByBlogIdAndDeleted(String blogId, Boolean notDeleted);
+    Blogs findByBlogIdAndIsDeleted(String blogId, Boolean notDeleted);
 }

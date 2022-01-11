@@ -69,7 +69,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public UniversalResponseDTO deleteUser(String userId) {
         UniversalResponseDTO ur=new UniversalResponseDTO();
-        User user  = userRepository.findByUserIdAndDeleted(userId,Constants.NOT_DELETED);
+        User user  = userRepository.findByUserIdAndIsDeleted(userId,Constants.NOT_DELETED);
         if(user==null){
             ur.setResponseCodeJson(new ResponseCodeJson("no such user found",HttpStatus.CONFLICT.value()));
             return ur;
@@ -88,7 +88,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public UniversalResponseDTO updateUser(UserUpdateDTO userUpdate) {
             UniversalResponseDTO ur=new UniversalResponseDTO();
-        User user  = userRepository.findByUserIdAndDeleted(userUpdate.getUserId(),Constants.NOT_DELETED);
+        User user  = userRepository.findByUserIdAndIsDeleted(userUpdate.getUserId(),Constants.NOT_DELETED);
         if(user==null){
             ur.setResponseCodeJson(new ResponseCodeJson("no such user found",HttpStatus.CONFLICT.value()));
             return ur;
@@ -106,7 +106,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Boolean validateUser(String userId) {
-        User user=userRepository.findByUserIdAndDeleted(userId,NOT_DELETED);
+        User user=userRepository.findByUserIdAndIsDeleted(userId,NOT_DELETED);
         if(user==null) return false;
         else return true;
     }
