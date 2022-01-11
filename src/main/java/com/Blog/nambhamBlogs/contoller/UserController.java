@@ -2,6 +2,7 @@ package com.Blog.nambhamBlogs.contoller;
 
 import com.Blog.nambhamBlogs.DTO.UniversalResponseDTO;
 import com.Blog.nambhamBlogs.DTO.UserDTO;
+import com.Blog.nambhamBlogs.DTO.UserUpdateDTO;
 import com.Blog.nambhamBlogs.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,15 +22,25 @@ public class UserController {
         return new ResponseEntity<>(ur, HttpStatus.OK);
     }
 
-    @GetMapping(value="/getuser", params="username")
+    @GetMapping(value="/getUser", params="username")
     public ResponseEntity<?> getUsers(@RequestParam String username){
         UniversalResponseDTO ur = userService.getUsersWithName(username);
         return new ResponseEntity<>(ur, HttpStatus.OK);
     }
 
-    @GetMapping(value="/getuser", params="emailId")
+    @GetMapping(value="/getUser", params="emailId")
     public ResponseEntity<?> getUser(@RequestParam String emailId){
         UniversalResponseDTO ur = userService.getUserByEmailId(emailId);
+        return new ResponseEntity<>(ur, HttpStatus.OK);
+    }
+    @GetMapping(value="/deleteUser", params="userId")
+    public ResponseEntity<?> deleteUser(@RequestParam String userId){
+        UniversalResponseDTO ur = userService.deleteUser(userId);
+        return new ResponseEntity<>(ur, HttpStatus.OK);
+    }
+    @PostMapping(value="/updateUser")
+    public ResponseEntity<?> updateUser(@RequestParam UserUpdateDTO userUpdate){
+        UniversalResponseDTO ur = userService.updateUser(userUpdate);
         return new ResponseEntity<>(ur, HttpStatus.OK);
     }
 }
