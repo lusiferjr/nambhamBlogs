@@ -61,6 +61,10 @@ public class UserServiceImpl implements UserService {
     public UniversalResponseDTO getUserByEmailId(String emailId) {
         UniversalResponseDTO ur = new UniversalResponseDTO();
         User user  = userRepository.findByEmailIdAndIsDeleted(emailId,Constants.NOT_DELETED);
+        if(user==null){
+            ur.setResponseCodeJson(new ResponseCodeJson("user not found",HttpStatus.CONFLICT.value()));
+            return ur;
+        }
         ur.setObject(user);
         ur.setResponseCodeJson(new ResponseCodeJson("user successfully fetched.",HttpStatus.OK.value()));
         return ur;
